@@ -1,0 +1,45 @@
+version: '2'
+services:
+    config-server:
+        container_name: config-server
+        build:
+            context: ConfigServer
+            dockerfile: Dockerfile
+        image: config-server:latest
+        ports:
+            - 9080:8888
+        networks:
+            - spring-cloud-network
+    service-cliente:
+        container_name: service-cliente
+        build:
+            context: Cliente
+            dockerfile: Dockerfile
+        image: service-cliente:latest
+        ports:
+            - 9050:8085
+        networks:
+            - spring-cloud-network
+    service-cuenta:
+        container_name: service-cuenta
+        build:
+            context: Cuenta
+            dockerfile: Dockerfile
+        image: service-cuenta:latest
+        ports:
+            - 9040:8085
+        networks:
+            - spring-cloud-network
+    service-movimiento:
+        container_name: service-movimiento
+        build:
+            context: Movimiento
+            dockerfile: Dockerfile
+        image: service-movimiento:latest
+        ports:
+            - 9030:8085
+        networks:
+            - spring-cloud-network
+networks:
+    spring-cloud-network:
+        driver: bridge
