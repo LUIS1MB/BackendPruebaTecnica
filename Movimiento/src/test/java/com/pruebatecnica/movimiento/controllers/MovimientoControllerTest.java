@@ -51,8 +51,13 @@ class MovimientoControllerTest {
 	
 	@Test
 	public void registroSatisfactorioMovimiento() throws JsonProcessingException, Exception{
-		LocalDateTime actual = LocalDateTime.of(2022, 9, 22, 21, 13);
-		Movimiento movimiento = new Movimiento(3L,1L,actual,"DEPOSITO",100L,300L);
+		Movimiento movimiento = new Movimiento();
+				movimiento.setIdMovimiento(3L);
+				movimiento.setIdCuenta(1L);
+				movimiento.setTipoMovimiento("DEPOSITO");
+				movimiento.setValor(100L);
+				movimiento.setSaldo(300L);
+				
 		ResponseEntity response = ResponseEntity.ok().body(movimiento);
 		
 		when(movimientoService.grabar(Mockito.any())).thenReturn(response);
