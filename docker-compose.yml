@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile
         image: config-server:latest
         ports:
-            - 9080:8888
+            - 9080:9080
         networks:
             - spring-cloud-network
     service-cliente:
@@ -16,30 +16,44 @@ services:
             context: Cliente
             dockerfile: Dockerfile
         image: service-cliente:latest
+        depends_on: 
+            - config-server
         ports:
-            - 9050:8085
+            - 9050:9050
         networks:
             - spring-cloud-network
+        links:
+            - config-server:config-server
     service-cuenta:
         container_name: service-cuenta
         build:
             context: Cuenta
             dockerfile: Dockerfile
         image: service-cuenta:latest
+        depends_on: 
+            - config-server
+            - service-cliente
         ports:
-            - 9040:8085
+            - 9040:9040
         networks:
             - spring-cloud-network
+        links:
+            - config-server:config-server
     service-movimiento:
         container_name: service-movimiento
         build:
             context: Movimiento
             dockerfile: Dockerfile
         image: service-movimiento:latest
+        depends_on: 
+            - config-server
+            - service-cuenta
         ports:
-            - 9030:8085
+            - 9030:9030
         networks:
             - spring-cloud-network
+        links:
+            - config-server:config-server
 networks:
     spring-cloud-network:
-        driver: bridge
+        external: true
